@@ -18,13 +18,20 @@ def webhook():
     print('Request:')
     print(json.dumps(req, indent=4))
 
-    r = make_response(json.dumps({
-        'speech': 'Say something',
-        'displayText': 'Display something'
-    }, indent=4))
+    r = make_response(json.dumps(processRequest(req), indent=4))
 
     r.headers['Content-Type'] = 'application/json'
     return r
+
+
+def processRequest(req):
+    if req.get('result').get('action') != "articles.list":
+        return {}
+
+    return {
+        'speech': 'Articles about ' + req.get('result').get('parameters').get('subject'),
+        'displayText': 'Articles about ' + req.get('result').get('parameters').get('subject')
+    }
 
 
 if __name__ == '__main__':
