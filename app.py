@@ -30,8 +30,7 @@ def processRequest(req):
         return {}
 
     subject = req.get('result').get('parameters').get('subject')
-
-    api_gateway_uri = 'https://prod--gateway.elifesciences.org'
+    api_gateway_uri = 'https://prod--gateway.elifesciences.org
 
     q = Request(api_gateway_uri + '/subjects/' + subject)
     q.add_header('Accept', 'application/vnd.elife.subject+json;version=1')
@@ -45,10 +44,17 @@ def processRequest(req):
         return {}
 
     subject = json.loads(subject.read())
+    
+    top-articles = Request(api_gateway_uri + '/articles/search?subject[]=' + subject + '&sort=date&order=desc')
+    top-articles.add_header('Accept', 'application/vnd.elife.subject+json;version=1')
 
+    result = urlopen(top-articles)
+    
+    result = json.loads(result.read())
+    
     return {
-        'speech': 'Articles about ' + subject.get('name'),
-        'displayText': 'Articles about ' + subject.get('name')
+        'speech': 'Articles about ' + subject.get('name') + result.get('title'),
+        'displayText': 'Articles about ' + subject.get('name') + result.get('title')
     }
 
 
