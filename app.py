@@ -46,7 +46,7 @@ def processRequest(req):
     subject = json.loads(subject.read())
     
     top-articles = Request(api_gateway_uri + '/articles/search?subject[]=' + subject + '&sort=date&order=desc')
-    top-articles.add_header('Accept', 'application/vnd.elife.article-list+json;version=1')
+    top-articles.add_header('Accept', 'application/vnd.elife.search+json;version=1')
 
     print api_gateway_uri + '/articles/search?subject[]=' + subject + '&sort=date&order=desc'
     print(top-articles.headers)
